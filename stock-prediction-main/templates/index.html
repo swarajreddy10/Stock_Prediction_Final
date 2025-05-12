@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Prediction</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            margin: 0 auto;
+            width: 80%;
+            padding: 20px;
+        }
+        h1, h2 {
+            text-align: center;
+        }
+        form {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .predictions {
+            margin-top: 20px;
+        }
+        .predictions ul {
+            list-style-type: disc;
+            padding-left: 20px;
+        }
+        .error {
+            color: red;
+            text-align: center;
+        }
+        .disclaimer {
+        color: lightgrey; /* Light grey text */
+        text-align: center; /* Center-align the text */
+        margin-top: 20px; /* Add some space above the disclaimer */
+        font-size: 11px; /* Set a very small font size */
+    }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="disclaimer">
+            <p>This data and prediction are not for practical applications and are solely based on historical data. They should not be used for real-time trading decisions.</p>
+        </div>
+        
+        <h1>Stock Price Prediction</h1>
+
+        <form method="POST">
+            <label for="stock_symbol">Enter Stock Symbol:</label>
+            <input type="text" id="stock_symbol" name="stock_symbol" required>
+            <button type="submit">Predict</button>
+        </form>
+
+        {% if error %}
+        <div class="error">{{ error }}</div>
+        {% endif %}
+        <h2>{{ stock_symbol }} Current Stock Price: ${{ current_price }}</h2>
+        {% if graph1 %}
+        <div id="graph1">
+            <h2>Stock Price Trend</h2>
+            {{ graph1 | safe }}
+        </div>
+       
+        <div id="graph2">
+            <h2>Detailed Past 1 Month with Predictions</h2>
+            {{ graph2 | safe }}
+        </div>
+
+        <div class="predictions">
+              
+               
+            <h2>Predicted Prices for the Next 5 Days</h2>
+            <ul>
+                {% for date, price in zip(future_dates, predictions) %}
+                <li>{{ date }}: ${{ price }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
